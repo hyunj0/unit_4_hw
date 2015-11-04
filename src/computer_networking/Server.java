@@ -11,10 +11,11 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Calendar;
 
 public class Server
 {
-    public static final int PORT = 5228;
+    public static final int PORT = 8080;
 
     public static void main(String[] args) throws IOException
     {
@@ -24,6 +25,8 @@ public class Server
             Socket inboundConnection = ss.accept();
 
             BufferedReader in = new BufferedReader(new InputStreamReader(inboundConnection.getInputStream()));
+            int utcOffset = in.read();
+
             System.out.println("SERVER received: " + in.readLine());
 
             PrintWriter out = new PrintWriter(inboundConnection.getOutputStream(), true);
@@ -31,5 +34,10 @@ public class Server
 
             inboundConnection.close();
         }
+    }
+
+    public String getTime(int utcOffset) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.getTimeInMillis();
     }
 }

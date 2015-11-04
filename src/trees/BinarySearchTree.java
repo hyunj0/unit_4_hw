@@ -2,8 +2,20 @@ package trees;
 
 public class BinarySearchTree
 {
-    public void insert(int key) {
+    //recursive
+    public void insert(TreeNode rootNode, int key)
+    {
+        //base case
+        if (rootNode == null) {
+            rootNode = new TreeNode(key);
+        }
 
+        //recursive step
+        if (key < rootNode.key) {
+            insert(rootNode.left, key);
+        } else if (key > rootNode.key) {
+            insert(rootNode.right, key);
+        }
     }
 }
 

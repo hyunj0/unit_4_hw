@@ -1,48 +1,60 @@
 package linked_lists_and_hash_tables;
 
-public class CircularlyLinkedList extends SinglyList
-{
+public class CircularlyLinkedList {
 
-    SinglyNode rootNode;
+    CircularlyNode head;
 
-    @Override
-    public void addToHead(String data)
-    {
-        super.addToHead(data);
+    public void addToHead(String data) {
+        CircularlyNode newNode = new CircularlyNode(data);
+        newNode.next = head;
+        head = newNode;
+
+        CircularlyNode currentNode = head.next;
+        while (currentNode.next != null) {
+            currentNode = currentNode.next;
+        }
+        currentNode.next = head;
     }
 
-    @Override
-    public void addToTail(String data)
-    {
-        //create new node with data
-        SinglyNode singlyNode = new SinglyNode(data);
-
-        //a singly linked list with the last node referencing the root node
-        singlyNode.next = rootNode;
+    public void addToTail(String data) {
+        CircularlyNode newNode = new CircularlyNode(data);
+        CircularlyNode currentNode = head.next;
+        while (currentNode.next != null) {
+            currentNode = currentNode.next;
+        }
+        currentNode.next = newNode;
     }
 
-    @Override
-    public void delete(String data)
-    {
-        super.delete(data);
+    public void delete(String data) {
+        if(head == null) {
+            return;
+        }
+        if(head.data.equals(data)) {
+            head = head.next;
+        }
+        CircularlyNode prevNode = head;
+        while (prevNode.next != null) {
+            if (prevNode.next.data.equals(data)) {
+                if (prevNode.next.next != null){
+                    prevNode.next = prevNode.next.next;
+                }
+                prevNode.next = head;
+            }
+            prevNode = prevNode.next;
+        }
     }
 
-    @Override
-    public void insertAfter(String prevData, String newData)
-    {
-        SinglyNode current = head;
+    public void insertAfter(String prevData, String newData) {
+        CircularlyNode current = head;
 
-        // traverse through list
         while(current != null && !current.data.equals(prevData)) {
             current = current.next;
         }
 
         if(current != null) {
-            // then we know current is pointing to the node after
-            // which we add 'newData'
-            SinglyNode newNode = new SinglyNode(newData);
+            CircularlyNode newNode = new CircularlyNode(newData);
             newNode.next = current.next;
-            current.next = rootNode;
+            current.next = newNode;
         }
     }
 }
